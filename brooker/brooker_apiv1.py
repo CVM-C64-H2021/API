@@ -31,14 +31,15 @@ client.on_connect = on_connect
 client.on_message = on_message
 client.on_subscribe = on_subscribe
 client.subscribe("c64/api/testzone", qos=1)
-print("allo")
 
 client.loop_start()
 
+while True: # loop 30 secondes qui publish hello world
+    client.publish("c64/api/testzone", "hello world")
+    time.sleep(30)
+
 while connected != True:
     time.sleep(0.2)
-
-client.publish("c64/api/testzone", "hello world")
 
 while messageReceived != True:
     time.sleep(0.2)
