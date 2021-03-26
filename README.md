@@ -1,3 +1,3 @@
 # API
-## Team API : François Lapierre, Alexandre Ducharme, Jimmy Labrèque, Jean-Pierre Becerra, Xavier Rousseau
+## Team API : François Lapierre, Alexandre Ducharme, Jimmy Labrecque, Jean-Pierre Becerra, Xavier Rousseau
 
