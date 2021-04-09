@@ -26,6 +26,7 @@ def transformJSON(message):
     print(data_out)
 
 
+
 connected = False
 messageReceived = False
 
@@ -54,5 +55,3 @@ while messageReceived != True:
     time.sleep(0.2)
 
 client.loop_stop()
-
-
