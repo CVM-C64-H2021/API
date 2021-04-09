@@ -1,6 +1,8 @@
 import paho.mqtt.client as mqttclient
 import time
 
+dictio = {}
+
 def on_connect(client,userdata,flags,rc):
     if rc==0:
         print("client is connected")
@@ -12,9 +14,14 @@ def on_connect(client,userdata,flags,rc):
 def on_message(client, userdata, message):
     print("Message received: " + str(message.payload.decode("utf-8")))
     print("Topic: " + str(message.topic))
+    returnDictio(message)
 
 def on_subscribe(client, userdata, mid, granted_qos):
     print("Subscribed: "+str(mid)+" "+str(granted_qos))
+
+def returnDictio(message):
+    dictio[len(dictio)] = str(message.payload.decode("utf-8"))
+    print(dictio)
 
 
 connected = False
@@ -36,7 +43,7 @@ client.loop_start()
 
 while True: # loop 30 secondes qui publish hello world
     client.publish("c64/api/testzone", "hello world")
-    time.sleep(30)
+    time.sleep(5)
 
 while connected != True:
     time.sleep(0.2)

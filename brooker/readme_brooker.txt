@@ -1,2 +1,2 @@
 connexion au brooker fait par xavier
-pip install paho
+pip install paho-mqtt
