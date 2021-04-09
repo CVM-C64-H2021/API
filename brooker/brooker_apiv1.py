@@ -1,5 +1,6 @@
 import paho.mqtt.client as mqttclient
 import time
+import json
 
 dictio = {}
 
@@ -14,14 +15,15 @@ def on_connect(client,userdata,flags,rc):
 def on_message(client, userdata, message):
     print("Message received: " + str(message.payload.decode("utf-8")))
     print("Topic: " + str(message.topic))
-    returnDictio(message)
+    transformJSON(message)
 
 def on_subscribe(client, userdata, mid, granted_qos):
     print("Subscribed: "+str(mid)+" "+str(granted_qos))
 
-def returnDictio(message):
-    dictio[len(dictio)] = str(message.payload.decode("utf-8"))
-    print(dictio)
+def transformJSON(message):
+    dictio[str(message.topic)] = str(message.payload.decode("utf-8"))
+    data_out = json.dumps(dictio)
+    print(data_out)
 
 
 connected = False
