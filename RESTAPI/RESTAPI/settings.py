@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'SII_API.apps.SiiApiConfig',
     'rest_framework',
     'corsheaders',
     'django.contrib.admin',
@@ -41,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'SII_API.apps.SiiApiConfig',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -53,17 +51,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8000',
-)
-
-ROOT_URLCONF = 'API.urls'
-
-ROOT_URLCONF = 'RESTAPI.urls'
 
 TEMPLATES = [
     {
@@ -137,8 +126,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 ##
+ROOT_URLCONF = 'RESTAPI.urls'
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8081',
+    'http://localhost:8000',
 )
+
+#ROOT_URLCONF = 'API.urls'
+#CORS_ORIGIN_ALLOW_ALL = False
+#CORS_ORIGIN_WHITELIST = (
+#    'http://localhost:8081',
+#)
 ##
