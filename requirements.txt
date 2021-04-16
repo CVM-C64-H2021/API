@@ -4,4 +4,4 @@ django-heroku
 requests
 djangorestframework 
 djongo
-corsheaders
+django-cors-headers
