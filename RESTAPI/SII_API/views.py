@@ -1,4 +1,3 @@
-import json
 from django.shortcuts import render
 from django.http.response import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
@@ -6,6 +5,9 @@ from rest_framework import status
 from SII_API.models import Sii_Api
 from SII_API.serializers import ApiSerializer
 from rest_framework.decorators import api_view
+# import jwt
+
+# encoded_jwt = jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
 
 @api_view(['GET', 'POST'])
 def sensors (request):

@@ -137,14 +137,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-##
-ROOT_URLCONF = 'RESTAPI.urls'
-# CORS_ORIGIN_ALLOW_ALL = False
-# CORS_ORIGIN_WHITELIST = (
-#     'http://localhost:8081',
-# )
 
-# ROOT_URLCONF = 'API.urls'
+
+ROOT_URLCONF = 'RESTAPI.urls'
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',
