@@ -39,10 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
-=======
     'SII_API.apps.SiiApiConfig',
->>>>>>> dev-Database
 ]
 
 MIDDLEWARE = [
@@ -56,12 +53,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> dev-Database
 
 TEMPLATES = [
     {
@@ -143,28 +134,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-##
 ROOT_URLCONF = 'RESTAPI.urls'
-<<<<<<< HEAD
-# CORS_ORIGIN_ALLOW_ALL = False
-# CORS_ORIGIN_WHITELIST = (
-#     'http://localhost:8081',
-# )
-
-# ROOT_URLCONF = 'API.urls'
-=======
->>>>>>> dev-Database
-CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8000',
-)
-
-<<<<<<< HEAD
-=======
-#ROOT_URLCONF = 'API.urls'
-#CORS_ORIGIN_ALLOW_ALL = False
-#CORS_ORIGIN_WHITELIST = (
-#    'http://localhost:8081',
-#)
->>>>>>> dev-Database
-##
+CORS_ORIGIN_ALLOW_ALL = True
