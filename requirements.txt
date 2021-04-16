@@ -5,3 +5,4 @@ requests
 djangorestframework 
 djongo
 django-cors-headers
+dnspython
