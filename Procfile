@@ -1,1 +1,1 @@
-web: cd ./RESTAPI && gunicorn RESTAPI.wsgi.py
+web: cd ./RESTAPI && gunicorn RESTAPI.wsgi
