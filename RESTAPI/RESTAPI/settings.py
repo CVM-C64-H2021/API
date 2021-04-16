@@ -40,8 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'SII_API.apps.SiiApiConfig',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -53,18 +51,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
 
 
-ROOT_URLCONF = 'RESTAPI.urls'
-CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8000',
-)
 
-# ROOT_URLCONF = 'API.urls'
 
 TEMPLATES = [
     {
@@ -90,13 +81,22 @@ WSGI_APPLICATION = 'RESTAPI.wsgi.application'
 
 DATABASES = {
     "default": {
-    "ENGINE": "djongo",
-    "CLIENT": {
-        "host": "mongodb+srv://ObjetConnecte:Objfin12@cluster0.xetdz.mongodb.net/ObjetConnecte?retryWrites=true&w=majority",
-        "authMechanism": "SCRAM-SHA-1",
-    },
+        "ENGINE": "djongo",
+        "CLIENT": {
+            "host": "mongodb+srv://ObjetConnecte:Objfin12@cluster0.xetdz.mongodb.net/ObjetConnecte?retryWrites=true&w=majority",
+            "authMechanism": "SCRAM-SHA-1",
+        },
+    }
 }
-}
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'C64API_DB',
+#         'HOST': '127.0.0.1',
+#         'PORT': 27017,
+#     }
+# }
 
 
 # Password validation
@@ -138,8 +138,16 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 ##
+ROOT_URLCONF = 'RESTAPI.urls'
+# CORS_ORIGIN_ALLOW_ALL = False
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:8081',
+# )
+
+# ROOT_URLCONF = 'API.urls'
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8081',
+    'http://localhost:8000',
 )
+
 ##
