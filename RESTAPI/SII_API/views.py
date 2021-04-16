@@ -9,15 +9,20 @@ from rest_framework.decorators import api_view
 
 @api_view(['GET', 'POST'])
 def sensors (request):
-    data = Sii_Api.objects.all()
+    if request.method == 'GET':
+        data = Sii_Api.objects.all()
+        print(data)
+        titre = request.GET.get('m_type', None)
+        print(titre)
+        if titre is not None:
+            data = data.filter(contien = titre)
+        data_serializer = ApiSerializer(data, many=True)
+        # with open('SII_API/testJSON.json') as json_file:
+        #     data_test = json.load(json_file)
+        #     data_dict = json.dumps(data_test)
+        # return HttpResponse(data_dict)
 
-    # data_serializer = ApiSerializer(data)
-    # with open('SII_API/testJSON.json') as json_file:
-    #     data_test = json.load(json_file)
-    #     data_dict = json.dumps(data_test)
-    # return HttpResponse(data_dict)
-
-    return JsonResponse(data, safe=False)
+        return JsonResponse(data_serializer.data, safe=False)
 
 
 @api_view(['GET', 'POST'])

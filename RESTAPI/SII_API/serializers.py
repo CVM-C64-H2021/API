@@ -8,6 +8,6 @@ class ApiSerializer(serializers.ModelSerializer):
         model = Sii_Api
         fields = (  'm_date',
                     'm_type',
-                    'm_value',
-                    'm_alert',
-                    'm_msg', )
+                    'm_valeur',
+                    'm_alerte',
+                    'm_message', )
