@@ -10,3 +10,6 @@ pip install djongo
 pip install dnspython
 python -m pip install pymongo[snappy,gssapi,srv,tls]
 pip install django-cors-headers
+
+## start server
+manage.py runserver
