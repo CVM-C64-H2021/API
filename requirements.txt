@@ -6,3 +6,4 @@ djangorestframework
 djongo
 django-cors-headers
 dnspython
+pymongo[snappy,gssapi,srv,tls]
