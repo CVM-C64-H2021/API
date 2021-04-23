@@ -44,8 +44,8 @@ def sensors_id(request):
         data = Sii_Api.objects.all()
 
         mongoId = request.GET.get('idApp', None)
-        if mongoId is not None:
-            data = data.filter(idApp=45454).order_by("-date")
+        #if mongoId is not None:
+        data = data.filter(idApp=66666).order_by("-date")
 
         data_serializer = ApiSerializer(data, many=True)
         return JsonResponse(data_serializer.data, safe=False)
