@@ -1,1 +1,1 @@
-web: python ./RESTAPI/manage.py runserver
+web: cd ./RESTAPI && gunicorn RESTAPI.wsgi

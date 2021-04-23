@@ -1,4 +1,3 @@
-import json
 from django.shortcuts import render
 from django.http.response import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
@@ -6,18 +5,20 @@ from rest_framework import status
 from SII_API.models import Sii_Api
 from SII_API.serializers import ApiSerializer
 from rest_framework.decorators import api_view
+# import jwt
+
+# encoded_jwt = jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
 
 @api_view(['GET', 'POST'])
 def sensors (request):
-    data = Sii_Api.objects.all()
+    if request.method == 'GET':
+        data = Sii_Api.objects.all()
+        titre = request.GET.get('m_type', None)
+        if titre is not None:
+            data = data.filter(contien = titre)
+        data_serializer = ApiSerializer(data, many=True)
 
-    # data_serializer = ApiSerializer(data)
-    # with open('SII_API/testJSON.json') as json_file:
-    #     data_test = json.load(json_file)
-    #     data_dict = json.dumps(data_test)
-    # return HttpResponse(data_dict)
-
-    return JsonResponse(data, safe=False)
+        return JsonResponse(data_serializer.data, safe=False)
 
 
 @api_view(['GET', 'POST'])
@@ -35,11 +36,28 @@ def new_data (request):
 
 @api_view(['GET', 'POST'])
 def sensors_id (request):
-    pass
+    if request.method == 'GET':
+        data = Sii_Api.objects.all()
+
+        mongoId = request.GET.get('m_idApp', None)
+        if mongoId is not None:
+            data = data.filter(id__icontains=mongoId)
+
+        data_serializer = ApiSerializer(data, many=True)
+        return JsonResponse(data_serializer.data, safe=False)
 
 @api_view(['GET', 'POST'])
 def alerts (request):
-    pass
+    if request.method == 'GET':
+        data = Sii_Api.objects.all()
+
+        alerte = request.GET.get('m_alerte', None)
+        if alerte is not None:
+            data = data.filter(m_alerte__icontains=alerte)
+
+        data_serializer = ApiSerializer(data, many=True)
+        return JsonResponse(data_serializer.data, safe=False)
+
 
 @api_view(['GET', 'POST'])
 def sensors_id_alerts (request):

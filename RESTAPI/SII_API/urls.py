@@ -1,6 +1,8 @@
 from SII_API import views
 from django.urls import path
 
+
+
 urlpatterns = [
     path('sensors/', views.sensors),
     path('sensor/id/', views.sensors_id),
