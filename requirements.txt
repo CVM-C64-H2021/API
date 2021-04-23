@@ -8,3 +8,4 @@ django-cors-headers
 dnspython
 pymongo[snappy,gssapi,srv,tls]
 jwt
+pyjwt
