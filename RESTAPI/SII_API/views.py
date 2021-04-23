@@ -6,7 +6,7 @@ from rest_framework import response, status
 from SII_API.models import Sii_Api, User
 from SII_API.serializers import ApiSerializer
 from rest_framework.decorators import api_view
-import jwt
+from jwt import *
 from Token.Auth import *
 
 # encoded_jwt = jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
