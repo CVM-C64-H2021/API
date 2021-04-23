@@ -2,16 +2,12 @@ from rest_framework import status, exceptions
 from django.http import HttpResponse
 from rest_framework.authentication import get_authorization_header, BaseAuthentication
 from django.contrib.auth import get_user_model
+from SII_API.models import User
 import jwt
 import json
 
 
 class TokenAuthentication(BaseAuthentication):
-   
-    model = None
-
-    def get_model(self):
-        return get_user_model()
 
     def authenticate(self, request):
         auth = get_authorization_header(request).split()
@@ -37,23 +33,19 @@ class TokenAuthentication(BaseAuthentication):
         return self.authenticate_credentials(token)
 
     def authenticate_credentials(self, token):
-        model = self.get_model()
-        User = get_user_model()
         payload = jwt.decode(token, "SECRET_KEY")
-        email = payload['email']
         userid = payload['id']
         msg = {'Error': "Token mismatch",'status' :"401"}
         try:
-            
+
             user = User.objects.get(
-                email=email,
                 id=userid,
                 is_active=True
             )
-            
+
             if not user.token['token'] == token:
                 raise exceptions.AuthenticationFailed(msg)
-               
+
         except jwt.DecodeError or jwt.InvalidTokenError:
             return HttpResponse({'Error': "Token is invalid"}, status="403")
         except User.DoesNotExist:
