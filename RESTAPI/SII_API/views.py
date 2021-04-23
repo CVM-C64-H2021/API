@@ -13,16 +13,10 @@ from rest_framework.decorators import api_view
 def sensors (request):
     if request.method == 'GET':
         data = Sii_Api.objects.all()
-        print(data)
         titre = request.GET.get('m_type', None)
-        print(titre)
         if titre is not None:
             data = data.filter(contien = titre)
         data_serializer = ApiSerializer(data, many=True)
-        # with open('SII_API/testJSON.json') as json_file:
-        #     data_test = json.load(json_file)
-        #     data_dict = json.dumps(data_test)
-        # return HttpResponse(data_dict)
 
         return JsonResponse(data_serializer.data, safe=False)
 
@@ -42,11 +36,28 @@ def new_data (request):
 
 @api_view(['GET', 'POST'])
 def sensors_id (request):
-    pass
+    if request.method == 'GET':
+        data = Sii_Api.objects.all()
+        
+        mongoId = request.GET.get('id', None)
+        if mongoId is not None:
+            data = data.filter(id__icontains=mongoId)
+        
+        data_serializer = ApiSerializer(data, many=True)
+        return JsonResponse(data_serializer.data, safe=False)
 
 @api_view(['GET', 'POST'])
 def alerts (request):
-    pass
+    if request.method == 'GET':
+        data = Sii_Api.objects.all()
+        
+        alerte = request.GET.get('m_alerte', None)
+        if alerte is not None:
+            data = data.filter(m_alerte__icontains=alerte)
+        
+        data_serializer = ApiSerializer(data, many=True)
+        return JsonResponse(data_serializer.data, safe=False)
+
 
 @api_view(['GET', 'POST'])
 def sensors_id_alerts (request):
