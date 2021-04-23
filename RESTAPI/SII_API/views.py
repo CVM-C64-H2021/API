@@ -6,7 +6,7 @@ from rest_framework import response, status
 from SII_API.models import Sii_Api, User
 from SII_API.serializers import ApiSerializer
 from rest_framework.decorators import api_view
-from jwt import *
+import jwt
 from Token.Auth import *
 
 # encoded_jwt = jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
@@ -94,7 +94,7 @@ def login(request):
             'userid': loginData.id,
             # 'email': loginData.email,
         }
-        jwt_token = {'token': jwt.encode(payload, "SECRET_KEY")}
+        jwt_token = {'token': jwt.encode(payload, "SECRET_KEY", algorithm="HS256")}
 
         return HttpResponse(
             json.dumps(jwt_token),
