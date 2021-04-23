@@ -20,17 +20,15 @@ def sensors (request):
     # return JsonResponse(data_serializer.data, safe=False)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST']) #autostart sur un autre thread (checker pour django autostart)
 def new_data (request):
     if request.method == 'POST':
-        data = JSONParser().parse(request)
-        serial = ApiSerializer(data=data)
+        serial = ApiSerializer(data=request.data)
         if serial.is_valid():
             serial.save()
             return JsonResponse(serial.data, status=status.HTTP_201_CREATED)
         else:
             return JsonResponse(serial.errors,status=status.HTTP_400_BAD_REQUEST)
-
     pass
 
 @api_view(['GET', 'POST'])

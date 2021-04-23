@@ -24,8 +24,9 @@ def transformJSON(message):
     dictio[str(message.topic)] = str(message.payload.decode("utf-8"))
     data_out = json.dumps(dictio)
     print(data_out)
-
-
+    with open('brooker/data.json', 'w') as outfile:
+        json.dump(data_out, outfile)
+    
 
 connected = False
 messageReceived = False
@@ -40,7 +41,7 @@ client.connect(broker_address, port)
 client.on_connect = on_connect
 client.on_message = on_message
 client.on_subscribe = on_subscribe
-client.subscribe("c64/api/testzone", qos=1)
+client.subscribe("c64/api/#", qos=1)
 
 client.loop_start()
 
