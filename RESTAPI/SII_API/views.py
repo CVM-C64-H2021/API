@@ -41,7 +41,7 @@ def sensors_id (request):
 
         mongoId = request.GET.get('m_idApp', None)
         if mongoId is not None:
-            data = data.filter(id__icontains=mongoId)
+            data = data.filter(m_idApp__icontains=mongoId)
 
         data_serializer = ApiSerializer(data, many=True)
         return JsonResponse(data_serializer.data, safe=False)
