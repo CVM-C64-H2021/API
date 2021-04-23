@@ -13,7 +13,7 @@ class ApiSerializer(serializers.ModelSerializer):
                     'alerte',
                     'messageAlerte', )
 
-        modelUser = User
-        fields = (  'userid',
-                    'username',
-                    'password',)
+        # modelUser = User
+        # fields = (  'userid',
+        #             'username',
+        #             'password',)

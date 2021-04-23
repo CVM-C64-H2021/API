@@ -16,7 +16,7 @@ from Token.Auth import *
 def sensors(request):
     if request.method == 'GET':
         data = Sii_Api.objects.all()
-        titre = request.GET.get('m_type', None)
+        titre = request.GET.get('type', None)
         if titre is not None:
             data = data.filter(contien=titre)
         data_serializer = ApiSerializer(data, many=True)
@@ -43,9 +43,9 @@ def sensors_id(request):
     if request.method == 'GET':
         data = Sii_Api.objects.all()
 
-        mongoId = request.GET.get('m_idApp', None)
-        if mongoId is not None:
-            data = data.filter(id__icontains=mongoId)
+        mongoId = request.GET.get('idApp', None)
+        #if mongoId is not None:
+        data = data.filter(idApp=66666).order_by("-date")
 
         data_serializer = ApiSerializer(data, many=True)
         return JsonResponse(data_serializer.data, safe=False)
@@ -56,9 +56,9 @@ def alerts(request):
     if request.method == 'GET':
         data = Sii_Api.objects.all()
 
-        alerte = request.GET.get('m_alerte', None)
-        if alerte is not None:
-            data = data.filter(m_alerte__icontains=alerte)
+        alerte = request.GET.get('alerte', None)
+        #if alerte is not None:
+        data = data.filter(alerte="False").order_by("-date")
 
         data_serializer = ApiSerializer(data, many=True)
         return JsonResponse(data_serializer.data, safe=False)
@@ -94,7 +94,7 @@ def login(request):
             'userid': loginData.id,
             # 'email': loginData.email,
         }
-        jwt_token = {'token': jwt.encode(payload, "SECRET_KEY")}
+        jwt_token = {'token': jwt.encode(payload, "SECRET_KEY", algorithm="HS256")}
 
         return HttpResponse(
             json.dumps(jwt_token),

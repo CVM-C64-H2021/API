@@ -134,10 +134,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
-
-# ROOT_URLCONF = 'RESTAPI.urls'
-# CORS_ORIGIN_ALLOW_ALL = False
 ROOT_URLCONF = 'RESTAPI.urls'
 CORS_ORIGIN_ALLOW_ALL = True
 
