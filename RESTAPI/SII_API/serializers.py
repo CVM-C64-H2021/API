@@ -1,6 +1,6 @@
 from django.db.models import fields
 from rest_framework import serializers
-from SII_API.models import Sii_Api
+from SII_API.models import Sii_Api, User
 
 class ApiSerializer(serializers.ModelSerializer):
 
