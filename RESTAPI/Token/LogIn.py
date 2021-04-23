@@ -6,23 +6,23 @@ from django.conf import settings
 settings.configure(DEBUG=True)
 from rest_framework import views
 from django.http import HttpResponse
-from rest_framework.response import Response 
+from rest_framework.response import Response
 
 from django.contrib.auth import get_user_model
 
 
-   
+
 
 
 
 
 class Login(views.APIView):
-    
-    def post(self, request, *args, **kwargs):
-        
+
+    def post(self, request):
+
         if not request.data:
             return Response({'Error': "Please provide username/password"}, status="400")
-        
+
         username = request.data['username']
         password = request.data['password']
         User = get_user_model()
@@ -31,7 +31,7 @@ class Login(views.APIView):
         except User.DoesNotExist:
             return Response({'Error': "Invalid username/password"}, status="400")
         if user:
-            
+
             payload = {
                 'id': user.id,
                 'email': user.email,
