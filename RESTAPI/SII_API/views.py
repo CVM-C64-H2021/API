@@ -38,11 +38,11 @@ def new_data (request):
 def sensors_id (request):
     if request.method == 'GET':
         data = Sii_Api.objects.all()
-        
-        mongoId = request.GET.get('id', None)
+
+        mongoId = request.GET.get('m_idApp', None)
         if mongoId is not None:
             data = data.filter(id__icontains=mongoId)
-        
+
         data_serializer = ApiSerializer(data, many=True)
         return JsonResponse(data_serializer.data, safe=False)
 
@@ -50,11 +50,11 @@ def sensors_id (request):
 def alerts (request):
     if request.method == 'GET':
         data = Sii_Api.objects.all()
-        
+
         alerte = request.GET.get('m_alerte', None)
         if alerte is not None:
             data = data.filter(m_alerte__icontains=alerte)
-        
+
         data_serializer = ApiSerializer(data, many=True)
         return JsonResponse(data_serializer.data, safe=False)
 
