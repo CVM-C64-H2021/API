@@ -14,7 +14,6 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Sii_Api',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('m_idApp', models.IntegerField(default='')),
                 ('m_date', models.DateField()),
                 ('m_type', models.CharField(default='', max_length=70)),

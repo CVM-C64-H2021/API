@@ -13,7 +13,7 @@ from rest_framework.decorators import api_view
 def sensors (request):
     if request.method == 'GET':
         data = Sii_Api.objects.all()
-        titre = request.GET.get('m_type', None)
+        titre = request.GET.get('type', None)
         if titre is not None:
             data = data.filter(contien = titre)
         data_serializer = ApiSerializer(data, many=True)
@@ -39,9 +39,9 @@ def sensors_id (request):
     if request.method == 'GET':
         data = Sii_Api.objects.all()
 
-        mongoId = request.GET.get('m_idApp', None)
+        mongoId = request.GET.get('idApp', None)
         if mongoId is not None:
-            data = data.filter(m_idApp__icontains=mongoId)
+            data = data.filter(idApp__icontains=mongoId)
 
         data_serializer = ApiSerializer(data, many=True)
         return JsonResponse(data_serializer.data, safe=False)
@@ -51,9 +51,9 @@ def alerts (request):
     if request.method == 'GET':
         data = Sii_Api.objects.all()
 
-        alerte = request.GET.get('m_alerte', None)
+        alerte = request.GET.get('alerte', None)
         if alerte is not None:
-            data = data.filter(m_alerte__icontains=alerte)
+            data = data.filter(alerte__icontains=alerte).order_by("-date")[order:limit]
 
         data_serializer = ApiSerializer(data, many=True)
         return JsonResponse(data_serializer.data, safe=False)
