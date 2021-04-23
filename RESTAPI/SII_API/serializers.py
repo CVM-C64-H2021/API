@@ -6,7 +6,7 @@ class ApiSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Sii_Api
-        fields = (  'm_idApp'
+        fields = (  'm_idApp',
                     'm_date',
                     'm_type',
                     'm_valeur',
