@@ -72,7 +72,7 @@ def alerts(request):
         if limit != None:
             limit = int(limit)
         
-        data = data.filter(alerte=True).order_by("-date")[offset:limit]
+        data = data.filter(alerte="True").order_by("-date")[offset:limit]
 
         data_serializer = ApiSerializer(data, many=True)
         return JsonResponse(data_serializer.data, safe=False)
@@ -91,7 +91,7 @@ def sensors_id_alerts(request, id):
         if limit != None:
             limit = int(limit)
         if mongoId is not None:
-            data = data.filter(idApp=mongoId, alerte=True).order_by("-date")[offset:limit]
+            data = data.filter(idApp=mongoId, alerte="True").order_by("-date")[offset:limit]
         else:
             data = None
 
