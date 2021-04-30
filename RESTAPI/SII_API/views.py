@@ -38,14 +38,14 @@ def new_data(request):
     pass
 
 
-@api_view(['GET', 'POST'])
-def sensors_id(request):
-    if request.method == 'POST':
+@api_view(['GET'])
+def sensors_id(request, id):
+    if request.method == 'GET':
         data = Sii_Api.objects.all()
 
-        mongoId = request.POST.get('idApp', None)
-        offset = request.POST.get('offset', None)
-        limit = request.POST.get('limit', None)
+        mongoId = id
+        offset = request.GET.get('offset', None)
+        limit = request.GET.get('limit', None)
         if offset != None:
             offset = int(offset)
         if limit != None:
@@ -59,27 +59,20 @@ def sensors_id(request):
         return JsonResponse(data_serializer.data, safe=False)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def alerts(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         data = Sii_Api.objects.all()
 
-        alerte = request.POST.get('alerte', None)
-        offset = request.POST.get('offset', None)
-        limit = request.POST.get('limit', None)
+        offset = request.GET.get('offset', None)
+        limit = request.GET.get('limit', None)
+
         if offset != None:
             offset = int(offset)
         if limit != None:
             limit = int(limit)
-        if alerte == "true":
-            alerte = "True"
-        elif alerte == "false":
-            alerte = "False"
         
-        if alerte is not None:
-            data = data.filter(alerte=alerte).order_by("-date")[offset:limit]
-        else:
-            data = None
+        data = data.filter(alerte="True").order_by("-date")[offset:limit]
 
         data_serializer = ApiSerializer(data, many=True)
         return JsonResponse(data_serializer.data, safe=False)
