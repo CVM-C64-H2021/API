@@ -134,14 +134,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
-
-# ROOT_URLCONF = 'RESTAPI.urls'
-# CORS_ORIGIN_ALLOW_ALL = False
 ROOT_URLCONF = 'RESTAPI.urls'
 CORS_ORIGIN_ALLOW_ALL = True
 
 ## dé-comenter lors de test local
-# CORS_ORIGIN_WHITELIST = (
-#     'http://localhost:8000',
-# )
+#CORS_ORIGIN_WHITELIST = (
+#    'http://localhost:8000',
+#)
