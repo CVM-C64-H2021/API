@@ -40,12 +40,12 @@ def new_data(request):
 
 @api_view(['GET', 'POST'])
 def sensors_id(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         data = Sii_Api.objects.all()
 
-        mongoId = request.POST.get('idApp', None)
-        offset = request.POST.get('offset', None)
-        limit = request.POST.get('limit', None)
+        mongoId = request.GET.get('idApp', None)
+        offset = request.GET.get('offset', None)
+        limit = request.GET.get('limit', None)
         if offset != None:
             offset = int(offset)
         if limit != None:
@@ -61,12 +61,12 @@ def sensors_id(request):
 
 @api_view(['GET', 'POST'])
 def alerts(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         data = Sii_Api.objects.all()
 
-        alerte = request.POST.get('alerte', None)
-        offset = request.POST.get('offset', None)
-        limit = request.POST.get('limit', None)
+        alerte = request.GET.get('alerte', None)
+        offset = request.GET.get('offset', None)
+        limit = request.GET.get('limit', None)
         if offset != None:
             offset = int(offset)
         if limit != None:
