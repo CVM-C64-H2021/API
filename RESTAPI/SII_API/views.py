@@ -14,9 +14,9 @@ from Token.Auth import *
 
 @api_view(['GET', 'POST'])
 def sensors(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         data = Sii_Api.objects.all()
-        titre = request.POST.get('type', None)
+        titre = request.GET.get('type', None)
         if titre is not None:
             data = data.filter(contien=titre)
         data_serializer = ApiSerializer(data, many=True)
