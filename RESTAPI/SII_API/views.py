@@ -72,7 +72,7 @@ def alerts(request):
         if limit != None:
             limit = int(limit)
         
-        data = data.filter(alerte="True").order_by("-date")[offset:limit]
+        data = data.filter(alerte=1).order_by("-date")[offset:limit]
 
         data_serializer = ApiSerializer(data, many=True)
         return JsonResponse(data_serializer.data, safe=False)
