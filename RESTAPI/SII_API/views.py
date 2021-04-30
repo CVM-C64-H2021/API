@@ -14,7 +14,7 @@ from Token.Auth import *
 
 @api_view(['GET', 'POST'])
 def sensors(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         data = Sii_Api.objects.all()
         titre = request.GET.get('type', None)
         if titre is not None:
@@ -40,12 +40,20 @@ def new_data(request):
 
 @api_view(['GET', 'POST'])
 def sensors_id(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         data = Sii_Api.objects.all()
 
-        mongoId = request.GET.get('idApp', None)
-        #if mongoId is not None:
-        data = data.filter(idApp=66666).order_by("-date")
+        mongoId = request.POST.get('idApp', None)
+        offset = request.POST.get('offset', None)
+        limit = request.POST.get('limit', None)
+        if offset != None:
+            offset = int(offset)
+        if limit != None:
+            limit = int(limit)
+        if mongoId is not None:
+            data = data.filter(idApp=mongoId).order_by("-date")[offset:limit]
+        else:
+            data = None
 
         data_serializer = ApiSerializer(data, many=True)
         return JsonResponse(data_serializer.data, safe=False)
@@ -53,12 +61,25 @@ def sensors_id(request):
 
 @api_view(['GET', 'POST'])
 def alerts(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         data = Sii_Api.objects.all()
 
-        alerte = request.GET.get('alerte', None)
-        #if alerte is not None:
-        data = data.filter(alerte="False").order_by("-date")
+        alerte = request.POST.get('alerte', None)
+        offset = request.POST.get('offset', None)
+        limit = request.POST.get('limit', None)
+        if offset != None:
+            offset = int(offset)
+        if limit != None:
+            limit = int(limit)
+        if alerte == "true":
+            alerte = "True"
+        elif alerte == "false":
+            alerte = "False"
+        
+        if alerte is not None:
+            data = data.filter(alerte=alerte).order_by("-date")[offset:limit]
+        else:
+            data = None
 
         data_serializer = ApiSerializer(data, many=True)
         return JsonResponse(data_serializer.data, safe=False)
