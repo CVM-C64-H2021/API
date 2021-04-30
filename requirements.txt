@@ -9,3 +9,4 @@ dnspython
 pymongo[snappy,gssapi,srv,tls]
 jwt
 pyjwt
+sqlparse
