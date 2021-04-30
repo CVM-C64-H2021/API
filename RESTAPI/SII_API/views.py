@@ -16,7 +16,7 @@ from Token.Auth import *
 def sensors(request):
     if request.method == 'POST':
         data = Sii_Api.objects.all()
-        titre = request.GET.get('type', None)
+        titre = request.POST.get('type', None)
         if titre is not None:
             data = data.filter(contien=titre)
         data_serializer = ApiSerializer(data, many=True)
@@ -40,12 +40,12 @@ def new_data(request):
 
 @api_view(['GET', 'POST'])
 def sensors_id(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         data = Sii_Api.objects.all()
 
-        mongoId = request.GET.get('idApp', None)
-        offset = request.GET.get('offset', None)
-        limit = request.GET.get('limit', None)
+        mongoId = request.POST.get('idApp', None)
+        offset = request.POST.get('offset', None)
+        limit = request.POST.get('limit', None)
         if offset != None:
             offset = int(offset)
         if limit != None:
@@ -61,12 +61,12 @@ def sensors_id(request):
 
 @api_view(['GET', 'POST'])
 def alerts(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         data = Sii_Api.objects.all()
 
-        alerte = request.GET.get('alerte', None)
-        offset = request.GET.get('offset', None)
-        limit = request.GET.get('limit', None)
+        alerte = request.POST.get('alerte', None)
+        offset = request.POST.get('offset', None)
+        limit = request.POST.get('limit', None)
         if offset != None:
             offset = int(offset)
         if limit != None:
