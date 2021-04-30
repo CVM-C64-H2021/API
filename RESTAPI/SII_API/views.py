@@ -78,9 +78,25 @@ def alerts(request):
         return JsonResponse(data_serializer.data, safe=False)
 
 
-@api_view(['GET', 'POST'])
-def sensors_id_alerts(request):
-    pass
+@api_view(['GET'])
+def sensors_id_alerts(request, id):
+    if request.method == 'GET':
+        data = Sii_Api.objects.all()
+
+        mongoId = id
+        offset = request.GET.get('offset', None)
+        limit = request.GET.get('limit', None)
+        if offset != None:
+            offset = int(offset)
+        if limit != None:
+            limit = int(limit)
+        if mongoId is not None:
+            data = data.filter(idApp=mongoId, alerte="True").order_by("-date")[offset:limit]
+        else:
+            data = None
+
+        data_serializer = ApiSerializer(data, many=True)
+        return JsonResponse(data_serializer.data, safe=False)
 
 
 @api_view(['POST'])
