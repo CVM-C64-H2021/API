@@ -57,25 +57,15 @@ def sensors_id(request, id):
 def alerts(request):
     # returnMsg = authenticate(request)
     # if request.method == 'GET' and returnMsg.status_code == 200:
-    if request.method == 'GET':
-        offset = request.GET.get('offset', 0)
-        limit = request.GET.get('limit', 10)
+    offset = request.GET.get('offset', 0)
+    limit = request.GET.get('limit', 10)
 
-        offset = int(offset)
-        limit = min(int(limit),50)
-
-<<<<<<< HEAD
+    offset = int(offset)
+    limit = min(int(limit),50)
     
     data = Sii_Api.objects.filter(type="image").order_by("-date")[offset:limit]
     data_serializer = ApiSerializer(data, many=True)
     return JsonResponse(data_serializer.data, safe=False)
-=======
-        data = Sii_Api.objects.filter(alerte=True).order_by("-date")[offset:limit]
-        data_serializer = ApiSerializer(data, many=True)
-        return JsonResponse(data_serializer.data, safe=False)
-    # else:
-    #     return returnMsg
->>>>>>> 6af71f2f481c595b6e4471a4ca7040ab45e1fd93
 
 @api_view(['GET'])
 def sensors_id_alerts(request, id):
