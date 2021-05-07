@@ -9,6 +9,7 @@ from rest_framework.decorators import api_view
 import jwt
 import json
 from datetime import datetime, timedelta
+import sys
 
 
 
@@ -68,7 +69,6 @@ def alerts(request):
         return JsonResponse(data_serializer.data, safe=False)
     # else:
     #     return returnMsg
-
 
 @api_view(['GET'])
 def sensors_id_alerts(request, id):
