@@ -83,14 +83,17 @@ def authenticate(request):
     jwt_token = request.headers.get('authorization', None)
 
     if jwt_token:
+        print(jwt_token)
+        payload = jwt.decode(jwt_token, "SECRET_KEY", algorithms="HS256")
         try:
-            payload = jwt.decode(jwt_token, "SECRET_KEY", algorithm="HS256")
+            payload = jwt.decode(jwt_token, "SECRET_KEY", algorithms="HS256")
         except (jwt.DecodeError, jwt.ExpiredSignatureError):
-            return response.Response({'message': 'Token is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+            print(jwt.DecodeError)
+            print(jwt.ExpiredSignatureError)
+            return response.Response({'message': 'Token is invalids'}, status=status.HTTP_400_BAD_REQUEST)
 
         id = payload['userid']
         try:
-
             user = User.objects.get(
                 id=id,
             )
