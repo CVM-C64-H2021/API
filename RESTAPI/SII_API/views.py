@@ -8,6 +8,7 @@ from SII_API.serializers import ApiSerializer
 from rest_framework.decorators import api_view
 import jwt
 from datetime import datetime, timedelta
+import sys
 
 
 @api_view(['GET'])
@@ -64,12 +65,10 @@ def alerts(request):
     offset = int(offset)
     limit = min(int(limit),50)
 
-    try:
-        data = Sii_Api.objects.filter(alerte=True).order_by("-date")[offset:limit]
-        data_serializer = ApiSerializer(data, many=True)
-        return JsonResponse(data_serializer.data, safe=False)
-    except e:
-        return JsonResponse(e)
+    
+    data = Sii_Api.objects.filter(alerte=True).order_by("-date")[offset:limit]
+    data_serializer = ApiSerializer(data, many=True)
+    return JsonResponse(data_serializer.data, safe=False)
 
 @api_view(['GET'])
 def sensors_id_alerts(request, id):
