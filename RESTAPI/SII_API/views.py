@@ -7,9 +7,7 @@ from SII_API.models import Sii_Api, User
 from SII_API.serializers import ApiSerializer
 from rest_framework.decorators import api_view
 import jwt
-from Token.Auth import *
-
-# encoded_jwt = jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
+from datetime import datetime, timedelta
 
 
 @api_view(['GET'])
@@ -94,9 +92,29 @@ def sensors_id_alerts(request, id):
         return JsonResponse(data_serializer.data, safe=False)
 
 
-@api_view(['POST'])
 def authenticate(request):
-    auth.authenticate(request)
+    jwt_token = request.headers.get('authorization', None)
+
+    if jwt_token:
+        try:
+            payload = jwt.decode(jwt_token, "SECRET_KEY", algorithm="HS256")
+        except (jwt.DecodeError, jwt.ExpiredSignatureError):
+            return response.Response({'message': 'Token is invalid'}, status=400)
+
+        id = payload['userid']
+        try:
+
+            user = User.objects.get(
+                id=id,
+            )
+
+        except jwt.InvalidTokenError:
+            return  response.Response({'Error': "Token is invalid"}, status="403",content_type="application/json")
+        except user.DoesNotExist:
+            return   response.Response({'Error': "Token mismatch"}, status="500",content_type="application/json")
+        return response.Response({'User':user.username,"status":True},status="200")
+    else:
+        return response.Response({"message": "Token  does not exist"},status="400",contnt_type="application/json")
 
 
 @api_view(['POST'])
@@ -107,26 +125,24 @@ def login(request):
 
     username = request.data['username']
     password = request.data['password']
+
     try:
-        # loginData = User.objects.all()
         loginData = User.objects.get(username=username, password=password)
     except User.DoesNotExist:
-        print(loginData)
         return response.Response({'Error': "Invalid username/password"}, status="400")
     if loginData:
 
         payload = {
             'userid': loginData.id,
-            # 'email': loginData.email,
+            'exp': datetime.utcnow() + timedelta(seconds=1000)
         }
-        jwt_token = {'token': jwt.encode(payload, "SECRET_KEY", algorithm="HS256")}
-
+        jwt_token = jwt.encode(payload, "SECRET_KEY", algorithm="HS256")
+        print(jwt_token)
         return HttpResponse(
-            json.dumps(jwt_token),
+            json.dumps({'token': jwt_token.decode('utf-8')}),
             status=200,
             content_type="application/json"
         )
-
     else:
         print(loginData)
         return response.Response(
