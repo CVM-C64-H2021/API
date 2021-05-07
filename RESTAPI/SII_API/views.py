@@ -62,33 +62,10 @@ def alerts(request):
 
 @api_view(['GET'])
 def sensors_id_alerts(request, id):
-<<<<<<< HEAD
     errorInvalidToken = authenticate(request)
     if errorInvalidToken:
         return errorInvalidToken
     data = Sii_Api.objects.all()
-=======
-    # returnMsg = authenticate(request)
-    # if request.method == 'GET' and returnMsg.status_code == 200:
-    data = Sii_Api.objects.all()
-
-    mongoId = id
-    offset = request.GET.get('offset', None)
-    limit = request.GET.get('limit', None)
-    if offset != None:
-        offset = int(offset)
-    if limit != None:
-        limit = int(limit)
-    if mongoId is not None:
-        data = data.filter(idApp=mongoId, alerte=1).order_by("-date")[offset:limit]
-    else:
-        data = None
-
-    data_serializer = ApiSerializer(data, many=True)
-    return JsonResponse(data_serializer.data, safe=False)
-    # else:
-    #     return returnMsg
->>>>>>> 09d29338fd84ce63f3d2f35a18d630cb31438f05
 
     mongoId = id
     offset, limit = getLimitOffset(request)
