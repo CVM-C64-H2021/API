@@ -71,23 +71,22 @@ def alerts(request):
 def sensors_id_alerts(request, id):
     # returnMsg = authenticate(request)
     # if request.method == 'GET' and returnMsg.status_code == 200:
-    if request.method == 'GET':
-        data = Sii_Api.objects.all()
+    data = Sii_Api.objects.all()
 
-        mongoId = id
-        offset = request.GET.get('offset', None)
-        limit = request.GET.get('limit', None)
-        if offset != None:
-            offset = int(offset)
-        if limit != None:
-            limit = int(limit)
-        if mongoId is not None:
-            data = data.filter(idApp=mongoId, alerte="True").order_by("-date")[offset:limit]
-        else:
-            data = None
+    mongoId = id
+    offset = request.GET.get('offset', None)
+    limit = request.GET.get('limit', None)
+    if offset != None:
+        offset = int(offset)
+    if limit != None:
+        limit = int(limit)
+    if mongoId is not None:
+        data = data.filter(idApp=mongoId, alerte=1).order_by("-date")[offset:limit]
+    else:
+        data = None
 
-        data_serializer = ApiSerializer(data, many=True)
-        return JsonResponse(data_serializer.data, safe=False)
+    data_serializer = ApiSerializer(data, many=True)
+    return JsonResponse(data_serializer.data, safe=False)
     # else:
     #     return returnMsg
 
