@@ -65,7 +65,6 @@ def sensors_id_alerts(request, id):
     errorInvalidToken = authenticate(request)
     if errorInvalidToken:
         return errorInvalidToken
-    if request.method == 'GET':
     data = Sii_Api.objects.all()
 
     mongoId = id
