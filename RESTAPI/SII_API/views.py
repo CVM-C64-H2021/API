@@ -24,7 +24,7 @@ def sensors(request):
     if errorInvalidToken:
         return errorInvalidToken
 
-    offset, limit getLimitOffset(request)
+    offset, limit = getLimitOffset(request)
 
     data = Sii_Api.objects.order_by("-date")[offset:limit]
     data_serializer = ApiSerializer(data, many=True)
@@ -40,7 +40,7 @@ def sensors_id(request, id):
     data = Sii_Api.objects.all()
 
     mongoId = id
-    offset, limit getLimitOffset(request)
+    offset, limit = getLimitOffset(request)
     if mongoId is not None:
         data = data.filter(idApp=mongoId).order_by("-date")[offset:limit]
     else:
@@ -54,9 +54,9 @@ def alerts(request):
     errorInvalidToken = authenticate(request)
     if errorInvalidToken:
         return errorInvalidToken
-    offset, limit getLimitOffset(request)
+    offset, limit = getLimitOffset(request)
     
-    data = Sii_Api.objects.filter(alerte=1).order_by("-date")[offset:limit]
+    data = Sii_Api.objects.filter(alerte=1).order_by("-date")[2:1]
     data_serializer = ApiSerializer(data, many=True)
     return JsonResponse(data_serializer.data, safe=False)
 
@@ -69,7 +69,8 @@ def sensors_id_alerts(request, id):
     data = Sii_Api.objects.all()
 
     mongoId = id
-    offset, limit getLimitOffset(request)
+    offset, limit = getLimitOffset(request)
+
 
     if mongoId is not None:
         data = data.filter(idApp=mongoId, alerte=1).order_by("-date")[offset:limit]
