@@ -66,10 +66,12 @@ def alerts(request):
     offset = int(offset)
     limit = min(int(limit),50)
 
-    data = Sii_Api.objects.filter(alerte=True).order_by("-date")[offset:limit]
-    data_serializer = ApiSerializer(data, many=True)
-    return JsonResponse(data_serializer.data, safe=False)
-
+    try:
+        data = Sii_Api.objects.filter(alerte=True).order_by("-date")[offset:limit]
+        data_serializer = ApiSerializer(data, many=True)
+        return JsonResponse(data_serializer.data, safe=False)
+    except e:
+        return JsonResponse(e)
 
 @api_view(['GET'])
 def sensors_id_alerts(request, id):
