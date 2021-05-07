@@ -63,7 +63,7 @@ def alerts(request):
     offset = int(offset)
     limit = min(int(limit),50)
     
-    data = Sii_Api.objects.filter(type="image").order_by("-date")[offset:limit]
+    data = Sii_Api.objects.filter(alerte=bool(True)).order_by("-date")[offset:limit]
     data_serializer = ApiSerializer(data, many=True)
     return JsonResponse(data_serializer.data, safe=False)
 
