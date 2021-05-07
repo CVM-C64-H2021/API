@@ -6,7 +6,7 @@ class Sii_Api(models.Model):
     date = models.DateTimeField()
     type = models.CharField(max_length=70, blank=False, default='')
     valeur = models.TextField(blank=False, default='')
-    alerte = models.IntegerField(blank=False,, default=0)
+    alerte = models.BooleanField(default=False)
     messageAlerte = models.CharField(max_length=255,blank=True, default='')
 
 class User(models.Model):
