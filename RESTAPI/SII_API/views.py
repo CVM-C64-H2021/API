@@ -28,8 +28,7 @@ def sensors(request):
 @api_view(['GET', 'POST'])
 def new_data(request):
     if request.method == 'POST':
-        data = JSONParser().parse(request)
-        serial = ApiSerializer(data=data)
+        serial = ApiSerializer(data=request.data)
         if serial.is_valid():
             serial.save()
             return JsonResponse(serial.data, status=status.HTTP_201_CREATED)
