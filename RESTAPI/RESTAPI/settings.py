@@ -25,7 +25,7 @@ SECRET_KEY = 'e@$ii*a)urfe$_)nz@9fa$$n5)$l&bb!advcv(nke^pm4z85cd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['c64.herokuapp.com','http://localhost:8000' ]
+ALLOWED_HOSTS = ['c64.herokuapp.com','localhost','c64testapi.herokuapp.com' ]
 
 
 # Application definition
@@ -136,8 +136,3 @@ STATIC_URL = '/static/'
 
 ROOT_URLCONF = 'RESTAPI.urls'
 CORS_ORIGIN_ALLOW_ALL = True
-
-## dé-comenter lors de test local
-# CORS_ORIGIN_WHITELIST = (
-#     'http://localhost:8000',
-#)
