@@ -13,3 +13,6 @@ pip install django-cors-headers
 
 ## start server
 manage.py runserver
+
+## connexion au brooker
+pip install paho-mqtt
