@@ -12,16 +12,19 @@ from datetime import datetime, timedelta
 import sys
 
 
+def getLimitOffset(request):
+    offset = request.GET.get('offset', 0)
+    limit = request.GET.get('limit', 10)
+    return int(offset), min(int(limit), 50)
+
 
 @api_view(['GET'])
 def sensors(request):
-    # returnMsg = authenticate(request)
-    # if returnMsg.status_code == 200:
-    offset = request.GET.get('offset', 0)
-    limit = request.GET.get('limit', 10)
+    errorInvalidToken = authenticate(request)
+    if errorInvalidToken:
+        return errorInvalidToken
 
-    offset = int(offset)
-    limit = min(int(limit),50)
+    offset, limit getLimitOffset(request)
 
     data = Sii_Api.objects.order_by("-date")[offset:limit]
     data_serializer = ApiSerializer(data, many=True)
@@ -31,37 +34,27 @@ def sensors(request):
 
 @api_view(['GET'])
 def sensors_id(request, id):
-    # returnMsg = authenticate(request)
-    # if request.method == 'GET' and returnMsg.status_code == 200:
-    if request.method == 'GET':
-        data = Sii_Api.objects.all()
+    errorInvalidToken = authenticate(request)
+    if errorInvalidToken:
+        return errorInvalidToken
+    data = Sii_Api.objects.all()
 
-        mongoId = id
-        offset = request.GET.get('offset', 0)
-        limit = request.GET.get('limit', 10)
+    mongoId = id
+    offset, limit getLimitOffset(request)
+    if mongoId is not None:
+        data = data.filter(idApp=mongoId).order_by("-date")[offset:limit]
+    else:
+        data = None
 
-        offset = int(offset)
-        limit = min(int(limit),50)
-        if mongoId is not None:
-            data = data.filter(idApp=mongoId).order_by("-date")[offset:limit]
-        else:
-            data = None
-
-        data_serializer = ApiSerializer(data, many=True)
-        return JsonResponse(data_serializer.data, safe=False)
-    # else:
-    #     return returnMsg
-
+    data_serializer = ApiSerializer(data, many=True)
+    return JsonResponse(data_serializer.data, safe=False)
 
 @api_view(['GET'])
 def alerts(request):
-    # returnMsg = authenticate(request)
-    # if request.method == 'GET' and returnMsg.status_code == 200:
-    offset = request.GET.get('offset', 0)
-    limit = request.GET.get('limit', 10)
-
-    offset = int(offset)
-    limit = min(int(limit),50)
+    errorInvalidToken = authenticate(request)
+    if errorInvalidToken:
+        return errorInvalidToken
+    offset, limit getLimitOffset(request)
     
     data = Sii_Api.objects.filter(alerte=1).order_by("-date")[offset:limit]
     data_serializer = ApiSerializer(data, many=True)
@@ -69,52 +62,46 @@ def alerts(request):
 
 @api_view(['GET'])
 def sensors_id_alerts(request, id):
-    # returnMsg = authenticate(request)
-    # if request.method == 'GET' and returnMsg.status_code == 200:
+    errorInvalidToken = authenticate(request)
+    if errorInvalidToken:
+        return errorInvalidToken
     if request.method == 'GET':
-        data = Sii_Api.objects.all()
+    data = Sii_Api.objects.all()
 
-        mongoId = id
-        offset = request.GET.get('offset', None)
-        limit = request.GET.get('limit', None)
-        if offset != None:
-            offset = int(offset)
-        if limit != None:
-            limit = int(limit)
-        if mongoId is not None:
-            data = data.filter(idApp=mongoId, alerte="True").order_by("-date")[offset:limit]
-        else:
-            data = None
+    mongoId = id
+    offset, limit getLimitOffset(request)
 
-        data_serializer = ApiSerializer(data, many=True)
-        return JsonResponse(data_serializer.data, safe=False)
-    # else:
-    #     return returnMsg
+    if mongoId is not None:
+        data = data.filter(idApp=mongoId, alerte=1).order_by("-date")[offset:limit]
+    else:
+        data = None
 
+    data_serializer = ApiSerializer(data, many=True)
+    return JsonResponse(data_serializer.data, safe=False)
 
 def authenticate(request):
-    # jwt_token = request.headers.get('authorization', None)
+    jwt_token = request.headers.get('authorization', None)
 
-    # if jwt_token:
-    #     try:
-    #         payload = jwt.decode(jwt_token, "SECRET_KEY", algorithm="HS256")
-    #     except (jwt.DecodeError, jwt.ExpiredSignatureError):
-    #         return response.Response({'message': 'Token is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+    if jwt_token:
+        try:
+            payload = jwt.decode(jwt_token, "SECRET_KEY", algorithm="HS256")
+        except (jwt.DecodeError, jwt.ExpiredSignatureError):
+            return response.Response({'message': 'Token is invalid'}, status=status.HTTP_400_BAD_REQUEST)
 
-    #     id = payload['userid']
-    #     try:
+        id = payload['userid']
+        try:
 
-    #         user = User.objects.get(
-    #             id=id,
-    #         )
+            user = User.objects.get(
+                id=id,
+            )
 
-    #     except jwt.InvalidTokenError:
-    #         return  response.Response({'Error': "Token is invalid"}, status=status.HTTP_401_UNAUTHORIZED,content_type="application/json")
-    #     except user.DoesNotExist:
-    #         return   response.Response({'Error': "Token mismatch"}, status=status.HTTP_409_CONFLICT,content_type="application/json")
-    #     return response.Response({'User':user.username,"status":True},status=status.HTTP_200_OK)
-    # else:
-    #     return response.Response({"message": "Token  does not exist"},status=status.HTTP_400_BAD_REQUEST,content_type="application/json")
+        except jwt.InvalidTokenError:
+            return  response.Response({'Error': "Token is invalid"}, status=status.HTTP_401_UNAUTHORIZED,content_type="application/json")
+        except user.DoesNotExist:
+            return   response.Response({'Error': "Token mismatch"}, status=status.HTTP_409_CONFLICT,content_type="application/json")
+        return False
+    else:
+        return response.Response({"message": "Token  does not exist"},status=status.HTTP_400_BAD_REQUEST,content_type="application/json")
     pass
 
 @api_view(['POST'])
