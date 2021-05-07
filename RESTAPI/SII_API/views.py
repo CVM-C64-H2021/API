@@ -12,16 +12,17 @@ from Token.Auth import *
 # encoded_jwt = jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def sensors(request):
-    if request.method == 'GET':
-        data = Sii_Api.objects.all()
-        titre = request.GET.get('type', None)
-        if titre is not None:
-            data = data.filter(contien=titre)
-        data_serializer = ApiSerializer(data, many=True)
+    offset = request.GET.get('offset', 0)
+    limit = request.GET.get('limit', 10)
 
-        return JsonResponse(data_serializer.data, safe=False)
+    offset = int(offset)
+    limit = min(int(limit),50)
+
+    data = Sii_Api.objects.order_by("-date")[offset:limit]
+    data_serializer = ApiSerializer(data, many=True)
+    return JsonResponse(data_serializer.data, safe=False)
 
 
 @api_view(['GET', 'POST'])
@@ -43,12 +44,11 @@ def sensors_id(request, id):
         data = Sii_Api.objects.all()
 
         mongoId = id
-        offset = request.GET.get('offset', None)
-        limit = request.GET.get('limit', None)
-        if offset != None:
-            offset = int(offset)
-        if limit != None:
-            limit = int(limit)
+        offset = request.GET.get('offset', 0)
+        limit = request.GET.get('limit', 10)
+
+        offset = int(offset)
+        limit = min(int(limit),50)
         if mongoId is not None:
             data = data.filter(idApp=mongoId).order_by("-date")[offset:limit]
         else:
@@ -60,21 +60,15 @@ def sensors_id(request, id):
 
 @api_view(['GET'])
 def alerts(request):
-    if request.method == 'GET':
-        data = Sii_Api.objects.all()
+    offset = request.GET.get('offset', 0)
+    limit = request.GET.get('limit', 10)
 
-        offset = request.GET.get('offset', None)
-        limit = request.GET.get('limit', None)
+    offset = int(offset)
+    limit = min(int(limit),50)
 
-        if offset != None:
-            offset = int(offset)
-        if limit != None:
-            limit = int(limit)
-        
-        data = data.filter(alerte=1).order_by("-date")[offset:limit]
-
-        data_serializer = ApiSerializer(data, many=True)
-        return JsonResponse(data_serializer.data, safe=False)
+    data = Sii_Api.objects.filter(alerte=True).order_by("-date")[offset:limit]
+    data_serializer = ApiSerializer(data, many=True)
+    return JsonResponse(data_serializer.data, safe=False)
 
 
 @api_view(['GET'])
