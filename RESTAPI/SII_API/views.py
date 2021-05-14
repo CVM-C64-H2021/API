@@ -37,12 +37,11 @@ def sensors_id(request, id):
     errorInvalidToken = authenticate(request)
     if errorInvalidToken:
         return errorInvalidToken
-    data = Sii_Api.objects.all()
 
     mongoId = id
     offset, limit = getLimitOffset(request)
     if mongoId is not None:
-        data = data.filter(idApp=mongoId).order_by("-date")[offset:offset+limit]
+        data = Sii_Api.objects.filter(idApp=mongoId).order_by("-date")[offset:offset+limit]
     else:
         data = None
 
@@ -65,14 +64,13 @@ def sensors_id_alerts(request, id):
     errorInvalidToken = authenticate(request)
     if errorInvalidToken:
         return errorInvalidToken
-    data = Sii_Api.objects.all()
 
     mongoId = id
     offset, limit = getLimitOffset(request)
 
 
     if mongoId is not None:
-        data = data.filter(idApp=mongoId, alerte=1).order_by("-date")[offset:offset+limit]
+        data = Sii_Api.objects.filter(idApp=mongoId, alerte=1).order_by("-date")[offset:offset+limit]
     else:
         data = None
 
